@@ -1,0 +1,66 @@
+<html>
+    <head>
+        <script type="text/javascript" src="./script/script.js"></script>
+        <script type="text/javascript">
+            // global debug mode is enable to debug on the entire page.
+            BrowserLogs._SET_GLOBAL_DEBUG_(true);
+
+            // local debug mode is locally enable to debug on the specific page.
+            BrowserLogs._SET_LOCAL_DEBUG_(true);
+
+            // case 1: one value with one key
+            // 1-1) input no key
+            BrowserLogs._PRINT_(1);
+            // >> no label: 1
+            // 1-2) input specific key
+            BrowserLogs._PRINT_(1, 'one');
+            // >> one: 1
+
+            // case 2: multiple values with multiple keys
+            // 2-1) input no keys
+            BrowserLogs._PRINTS_([1, 2]);
+            // >> 0th value: 1
+            // >> 1th value: 2
+            // 2-2) input specific keys
+            BrowserLogs._PRINTS_([1, 2], ['one', 'two']);
+            // >> one: 1
+            // >> two: 2
+        </script>
+    </head>
+    <body>
+        <div style="margin:10px;">
+            <span class="abstract" style="font-size:18px; line-height:30px;">
+                This is to be abcdef.
+            </span>
+            <span class="title" style="display:block; font-size:32px; font-weight:bold; line-height:48px;">Methods</span>
+            <span class="subtitle" style="display:block; font-size:24px; font-weight:bold; line-height:36px; margin:10px 0;">_SET_GLOBAL_DEBUG_</span>
+            <span class="mainText" style="line-height:24px;">
+                parameter: <span style="color:blue; font-weight:bold;">bool</span> statement <br/>
+                "Global Debug Mode" is enable to debug on the entire page.
+            </span>
+            <span class="subtitle" style="display:block; font-size:24px; font-weight:bold; line-height:36px; margin:10px 0;">_SET_LOCAL_DEBUG_</span>
+            <span class="mainText" style="line-height:24px;">
+                parameter: <span style="color:blue; font-weight:bold;">bool</span> statement <br/>
+                <br/>
+                "Local Debug Mode" is enable to debug on the specific page.
+            </span>
+            <span class="subtitle" style="display:block; font-size:24px; font-weight:bold; line-height:36px; margin:10px 0;">_PRINT_</span>
+            <span class="mainText" style="line-height:24px;">
+                parameter: <span style="color:blue; font-weight:bold;">arbitrary</span> value<br/>
+                - description: (necessarily) <br/>
+                parameter: <span style="color:blue; font-weight:bold;">string</span> key <br/>
+                <br/>
+                
+            </span>
+            <span class="subtitle" style="display:block; font-size:24px; font-weight:bold; line-height:36px; margin:10px 0;">_PRINTS_</span>
+            <span class="mainText" style="line-height:24px;">
+                parameter: <span style="color:blue; font-weight:bold;">array</span> valueArr <br/>
+                - description: array of values (necessarily)<br/>
+                parameter: <span style="color:blue; font-weight:bold;">array</span> keyArr <br/>
+                - description: array of string <br/>
+                <br/>
+
+            </span>
+        </div>
+    </body>
+</html>
