@@ -17,9 +17,11 @@ LogHandler.prototype._PRINT_ = function(value, key) {
         this._LOCAL_DEBUG_.get(mapKey).expiration = Math.floor(new Date().getTime() / 1000);
     }
 
+    var lineInfo = this._GET_LINE_INFO_('_PRINT_');
+
     var string = '';
     string += (key ? key + ': ' : 'no label: ');
-    console.log(string, value);
+    console.log(string, value, lineInfo);
 };
 
 LogHandler.prototype._PRINTS_ = function(valueArr, keyArr) {
@@ -31,40 +33,21 @@ LogHandler.prototype._PRINTS_ = function(valueArr, keyArr) {
         this._LOCAL_DEBUG_.get(mapKey).expiration = Math.floor(new Date().getTime() / 1000);
     }
 
+    var lineInfo = this._GET_LINE_INFO_('_PRINTS_')
+
     var string;
     for (var i = 0; i < valueArr.length; i++)
     {
         string = '';
         string += (keyArr[i] ? keyArr[i] + ': ' : (i + 'th value: '));
-        console.log(string, valueArr[i]);
+        console.log(string, valueArr[i], lineInfo);
     }
 };
 
 LogHandler.prototype._SET_GLOBAL_DEBUG_ = function(statement) {
     this._GLOBAL_DEBUG_ = Boolean(statement);
-
-    var messageIndex;
-    try {
-        throw(_UNDEFINED_VALUE);
-    }
-    catch(e) {
-        var stack = e.stack.split('\n');
-        stack.forEach(function(message, idx) {
-            if (message.indexOf('_SET_GLOBAL_DEBUG_') > -1)
-            {
-                messageIndex = idx;
-            }
-        });
-    } finally {
-        var result = stack[(messageIndex + 1)];
-        result = result.substring(result.indexOf('http://'));
-        if (result.indexOf(')') > -1)
-        {
-            result = result.substring(0, result.length - 1);
-        }
-        console.log('[LogHandler-GLOBAL] declared on : ', result);
-    }
-}
+    console.log('[LogHandler-GLOBAL] declared on : ', this._GET_LINE_INFO_('_SET_GLOBAL_DEBUG_'));
+};
 
 LogHandler.prototype._SET_LOCAL_DEBUG_ = function(statement) {
     var mapKey = location.hash || 'default';
@@ -74,28 +57,32 @@ LogHandler.prototype._SET_LOCAL_DEBUG_ = function(statement) {
     });
 
     this._RUN_CLEARANCE_();
+    var lineInfo = this._GET_LINE_INFO_('_SET_LOCAL_DEBUG_');
+    console.log('[LogHandler-LOCAL] declared on : ', lineInfo);
+};
 
-    var messageIndex;
+LogHandler.prototype._GET_LINE_INFO_ = function(identifier) {
+    var msgIndex;
     try {
         throw(_UNDEFINED_VALUE);
     }
     catch(e) {
         var stack = e.stack.split('\n');
         stack.forEach(function(message, idx) {
-            if (message.indexOf('_SET_LOCAL_DEBUG_') > -1)
+            if (message.indexOf(identifier) > -1)
             {
-                messageIndex = idx;
+                msgIndex = idx;
             }
         });
     } finally {
-        var result = stack[(messageIndex + 1)];
+        var result = stack[(msgIndex + 1)];
         result = result.substring(result.indexOf('http://'));
         if (result.indexOf(')') > -1)
         {
             result = result.substring(0, result.length - 1);
         }
-        console.log('[LogHandler-LOCAL] declared on : ', result);
     }
+    return result;
 };
 
 LogHandler.prototype._RUN_CLEARANCE_ = function() {
@@ -122,12 +109,9 @@ LogHandler.prototype._RUN_CLEARANCE_ = function() {
                 clearInterval(_this._CLEARANCE_);
                 delete _this._CLEARANCE_;
             }
-        }, 60 * 1000);
-    }
+        }, 60 * 1000);    }
 };
 
 if (!window.BroswerLogs) {
-    console.log('here');
     window.BrowserLogs = new LogHandler();
-    window.BrowserLogs._PRINT_(1);
 }
