@@ -1,3 +1,4 @@
+/* ASDF */
 function LogHandler(args) {
     args = args || {};
     this._GLOBAL_DEBUG_ = false;
